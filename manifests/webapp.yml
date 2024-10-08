@@ -43,7 +43,9 @@ metadata:
 spec:
   selector:
     app: webapp
+  type: NodePort
   ports:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+      nodePort: 30100

@@ -15,13 +15,14 @@ Before you start, ensure you have the following tools installed:
 ## K8s manifest files 
 * mongo-config.yaml
 * mongo-secret.yaml
-* mongo-exprerss.yaml
+* mongo-express.yaml
 * mongo.yaml
 * webapp.yaml
+* ingress.yaml
 
 ## K8s commands
 
-### Minikube
+### Minikube (simple)
 
 ![minikube_simple](img/minikube_simple_setup.png)
 
@@ -59,6 +60,37 @@ Before you start, ensure you have the following tools installed:
 
 ![webapp](img/succ_express.png)
     
+
+### Minikube (advanced)
+ON mongo-0:
+
+db.auth("mongouser", "mongopwd") 
+
+rs.initiate({
+  _id: "rs0",
+  version: 1,
+  members: [
+    { _id: 0, host: "mongo-statefulset-0.mongo-service.default.svc.cluster.local:27017" },
+    { _id: 1, host: "mongo-statefulset-1.mongo-service.default.svc.cluster.local:27017" },
+    { _id: 2, host: "mongo-statefulset-2.mongo-service.default.svc.cluster.local:27017" }
+  ]
+})
+
+rs.status()
+
+ON others:
+rs.secondaryOk()
+
+DATA NOW DO NOT SAVE - AFTER PAGE RELOAD DATA DO NOT PERSIST
+
+CREATE ADMIN USER
+
+db.createUser({
+  user: "mongouser",
+  pwd: "mongopwd",
+  roles: [ { role: "root", db: "admin" } ]
+})
+
 
 <br />
 
